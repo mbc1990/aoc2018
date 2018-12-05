@@ -1,13 +1,14 @@
 use std::fs::File;
 use std::io::BufReader;
 use std::io::BufRead;
+use std::collections::HashMap;
 
 struct Claim {
-    id: String,
-    offset_x: i32,
-    offset_y: i32,
-    width: i32,
-    height: i32
+    pub id: String,
+    pub offset_x: i32,
+    pub offset_y: i32,
+    pub width: i32,
+    pub height: i32
 }
 
 fn parse_claim(line: String) -> Claim {
@@ -30,7 +31,7 @@ fn parse_claim(line: String) -> Claim {
     // Parse width and height
     let size = by_spaces[3];
     let size_spl = size.split("x");
-    let size_spl_x= size_spl.collect::<Vec<&str>>();
+    let size_spl_x = size_spl.collect::<Vec<&str>>();
     let width: i32 = size_spl_x[0].parse().unwrap();
     let height: i32 = size_spl_x[1].parse().unwrap();
 
@@ -57,5 +58,25 @@ fn read_input(fname: String) -> Result<Vec<Claim>, &'static str> {
 }
 
 fn main() {
-    let claims = read_input("input.txt".parse().unwrap());
+
+    let mut total_overlap = 0;
+
+    let mut fabric = [[0; 1000]; 1000];
+
+    // let claims = read_input("input.txt".parse().unwrap()).unwrap();
+    let claims = read_input("input.txt".parse().unwrap()).unwrap();
+    for claim in claims {
+        let start_x = claim.offset_x + 1;
+        let start_y = claim.offset_y + 1;
+        for i in start_x..start_x+claim.width {
+            for k in start_y..start_y+claim.height {
+                let exists = fabric[i as usize][k as usize];
+                if exists == 1 {
+                    total_overlap += 1;
+                }
+                fabric[i as usize][k as usize] += 1;
+            }
+        }
+    }
+    println!("Total overlapping: {}", total_overlap);
 }
