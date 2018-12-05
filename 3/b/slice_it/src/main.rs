@@ -59,7 +59,6 @@ fn read_input(fname: String) -> Result<Vec<Claim>, &'static str> {
     return Ok(ret);
 }
 
-// TODO: Implement this function
 fn claims_overlap(claim_a: Claim, claim_b: Claim) -> bool {
     let mut fabric = [[0; 1000]; 1000];
 
@@ -89,14 +88,12 @@ fn claims_overlap(claim_a: Claim, claim_b: Claim) -> bool {
     return overlaps;
 }
 
-// TODO: Find claim that doesn't overlap
 fn main() {
 
     let mut total_overlap = 0;
 
     let mut fabric = [[0; 1000]; 1000];
 
-    // let claims = read_input("input.txt".parse().unwrap()).unwrap();
     let claims_a = read_input("input.txt".parse().unwrap()).unwrap();
     let claims_b = claims_a.clone();
     let mut counter = 0;
@@ -120,67 +117,4 @@ fn main() {
             return;
         }
     }
-
-    /*
-    let mut valid = Vec::new();
-    let mut possible = claims.clone();
-
-    // TODO: This doesn't work because a rectangle will rule itself out on subsequent runs
-    while valid.len() != 1 {
-        valid = Vec::new();
-        println!("Valid size: {}", valid.len());
-        for claim in possible.clone() {
-            // Fill in matrix
-            let start_x = claim.offset_x + 1;
-            let start_y = claim.offset_y + 1;
-            let mut is_valid = true;
-            for i in start_x..start_x+claim.width {
-                for k in start_y..start_y+claim.height {
-                    let exists = fabric[i as usize][k as usize];
-                    println!("Found arr val: {}", exists);
-                    if exists >= 1 {
-                        is_valid = false;
-                    }
-                    fabric[i as usize][k as usize] += 1;
-                }
-            }
-
-            // No conflicts yet
-            if is_valid {
-                println!("Valid rect found");
-                valid.push(claim);
-            } else {
-                println!("Rect invalid");
-            }
-        }
-        possible = valid.clone();
-        println!("Valid size: {}", valid.len());
-    }
-    */
-
-    println!("Done");
-
-    // while valid.len != 1
-        // for each claim in possible
-            // fill in matrix
-            // if still valid
-                // add to valid
-        // possible = valid
-        // valid = new vector
-    /*
-    for claim in claims {
-        let start_x = claim.offset_x + 1;
-        let start_y = claim.offset_y + 1;
-        for i in start_x..start_x+claim.width {
-            for k in start_y..start_y+claim.height {
-                let exists = fabric[i as usize][k as usize];
-                if exists == 1 {
-                    total_overlap += 1;
-                }
-                fabric[i as usize][k as usize] += 1;
-            }
-        }
-    }
-    println!("Total overlapping: {}", total_overlap);
-    */
 }
